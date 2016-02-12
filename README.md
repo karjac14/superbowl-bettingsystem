@@ -1,7 +1,7 @@
 # Superbowl Betting System
 
 
-# User Story
+## User Story
 
 User is asked:
 [1] To Bet, [2] Check the current Bets status, [3] Admin to see all bets
