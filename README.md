@@ -3,8 +3,8 @@
 
 #User Story
 
-Menu User is asked:
-[1] to Bet or [2] Check the current Bets status.
+User is asked:
+[1] To Bet, [2] Check the current Bets status, [3] Admin to see all bets
 
 [1]
 User will be asked to choose a team. i.e (Broncos or Panthers).
@@ -16,5 +16,5 @@ Screen goes back to menu page.
 [2]
 User will view the possible winnings
 
-Stretch goal:
+[3]
 An Admin user can see all the bets (amounts, winning and control number)

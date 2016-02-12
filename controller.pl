@@ -1,6 +1,5 @@
 #!/usr/bin/perl5
 
-
 use strict;
 use warnings;
 use Data::Dumper;
@@ -11,7 +10,7 @@ my $event = 'Super Bowl LI';
 my $date = 'February 5, 2017';
 
 my @bets = ({"team" => 1, "bet" => 200, "controlno" => "ABCD1234"},
-            {"team" => 2, "bet" => 100, "controlno" => "ABCD1232"},
+            {"team" => 2, "bet" => 200, "controlno" => "ABCD1232"},
             {"team" => 1, "bet" => 100, "controlno" => "ABCD123B"});
 
 sub start {
@@ -98,11 +97,13 @@ sub confirmbet {
 
   print("Thank you for betting!\n",
         "You bet for $confirmteam with amount of $ @$bets[$l]{\"bet\"}\n",
-        "Your potential winning will be \$$winning!\n",
-        "Your reference number is $bets[$l]{\"controlno\"}\n",
+        "Your potential winning will be: \$"); printf("%.2f", $winning);
+  print("\nYour reference number is $bets[$l]{\"controlno\"}\n",
         "Good Luck!\n");
   &back;
 }
+
+
 
 sub betfactors {
 
@@ -143,18 +144,34 @@ sub admin {
   my $pw = <STDIN>;
   chomp $pw;
   if ($pw eq "passme"){
-      &show;
-      &back;
+    print "\033[2J";   #clear the screen
+    print "\033[0;0H"; #jump to 0,0
+    &show;
+    &back;
   } else {
     &start;
   }
 }
 
 sub show {
-  print("  Team         |  Bet          |  Control no.  |\n");
+  print("\n\n  Team           |  Control no.       |  Bet      |  Winning*  |");
   for my $href (@bets) {
-    print("  $href->{\"team\"}            |  $href->{\"bet\"}          |  $href->{\"controlno\"}\n");
+
+
+    my @factors = &betfactors;
+    my $winning;
+    my $tn = $href->{"team"};
+    if ($tn eq '1'){
+      $tn = substr $team1, 0, 12;
+      $winning = $href->{"bet"} * $factors[0];
+    } elsif ($tn eq '2') {
+      $tn = substr $team2, 0, 12;
+      $winning = $href->{"bet"} * $factors[1];
+    }
+    print("\n  $tn   |  $href->{\"controlno\"}          |  \$ $href->{\"bet\"}    |  \$ "); printf("%.2f", $winning);
+    print("  |");
   }
+  print("\n\n   *winning amount may vary as betting period continues");
   return;
 }
 
