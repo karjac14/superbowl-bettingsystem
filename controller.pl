@@ -1,4 +1,4 @@
-#!/Users/karloe/perl5
+#!/usr/bin/perl5
 
 
 use strict;
@@ -43,6 +43,7 @@ sub start {
   }
   else {
     print "invalid choice";
+    &back;
   }
 }
 
@@ -51,13 +52,21 @@ sub getbet {
   print "[1] $team1\n[2] $team2\n";
   my $choiceteam = <STDIN>;
   chomp $choiceteam;
+
   print "How much you want to bet?\n";
   print "\$";
   my $betamount = <STDIN>;
   chomp $betamount;
   print "\n";
+  if (($choiceteam eq 1 || $choiceteam eq 2) && ($betamount*1 eq $betamount)) {
+    &recordbet($choiceteam, $betamount);
+  } else {
+    print "invalid team choice or bet amount";
+    &back;
+  }
   print "############################################\n\n";
-  &recordbet($choiceteam, $betamount);
+
+
 }
 
 sub recordbet {
@@ -92,11 +101,7 @@ sub confirmbet {
         "Your potential winning will be \$$winning!\n",
         "Your reference number is $bets[$l]{\"controlno\"}\n",
         "Good Luck!\n");
-  print("Press 'Enter' to go back main menu\n\n");
-  my $back = <STDIN>;
-  if ($back =~ /\S\s/ || $back =~ /\n/){
-      &start;
-  }
+  &back;
 }
 
 sub betfactors {
@@ -139,11 +144,7 @@ sub admin {
   chomp $pw;
   if ($pw eq "passme"){
       &show;
-      print("Press 'Enter' to go back main menu\n\n");
-      my $back = <STDIN>;
-      if ($back =~ /\S\s/ || $back =~ /\n/){
-          &start;
-      }
+      &back;
   } else {
     &start;
   }
@@ -155,6 +156,14 @@ sub show {
     print("  $href->{\"team\"}            |  $href->{\"bet\"}          |  $href->{\"controlno\"}\n");
   }
   return;
+}
+
+sub back {
+  print("\n\nPress 'Enter' to go back main menu\n\n");
+  my $back = <STDIN>;
+  if ($back =~ /\S\s/ || $back =~ /\n/){
+      &start;
+  }
 }
 
 &start;
